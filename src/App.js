@@ -1,53 +1,58 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import Container from './components/Container';
 import Statistics from './components/Statistics';
 import FeedbackOptions from './components/FeedbackOptions';
 import Section from './components/Section';
 import Notification from './components/Notification';
 
-export class App extends Component {
-  state = {
-    good: 0,
-    neutral: 0,
-    bad: 0,
+const App = () => {
+  // useState React hook
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
+
+  // update State values if button pressed
+  const updateStatistics = statName => {
+    switch (statName) {
+      // update good State value
+      case 'good':
+        setGood(prevState => prevState + 1);
+        break;
+
+      // update neutral State value
+      case 'neutral':
+        setNeutral(prevState => prevState + 1);
+        break;
+
+      // update bad State value
+      case 'bad':
+        setBad(prevState => prevState + 1);
+        break;
+
+      default:
+        break;
+    }
   };
 
-  // Один метод на різні Батони
-  updateStatistics = statName => {
-    this.setState(prevState => ({
-      [statName]: prevState[statName] + 1,
-    }));
-  };
+  // sum feedback
+  const countTotalFeedback = () => good + neutral + bad;
 
-  // сума відгуків
-  countTotalFeedback = () => {
-    return Object.values(this.state).reduce((acc, stat) => acc + stat, 0);
-  };
+  // % positive feedback
+  const countPositiveFeedbackPercentage = () =>
+    Math.round((good / countTotalFeedback()) * 100) || 0;
 
-  // % Позитивних від загальної кількості
-  countPositiveFeedbackPercentage = () => {
-    return Math.round((this.state.good / this.countTotalFeedback()) * 100) || 0;
-  };
-
-  render() {
-    const { good, neutral, bad } = this.state;
-    const {
-      updateStatistics,
-      countTotalFeedback,
-      countPositiveFeedbackPercentage,
-    } = this;
-
-    return (
+  return (
+    <>
       <Container>
         <Section title={'Please leave feedback'}>
           <FeedbackOptions
-            options={Object.keys(this.state)}
+            options={['good', 'neutral', 'bad']}
             onLeaveFeedback={updateStatistics}
           />
         </Section>
 
         <Section title={'Statistics'}>
-          {this.countTotalFeedback() ? (
+          {countTotalFeedback() ? (
             <Statistics
               good={good}
               neutral={neutral}
@@ -60,8 +65,8 @@ export class App extends Component {
           )}
         </Section>
       </Container>
-    );
-  }
-}
+    </>
+  );
+};
 
 export default App;
