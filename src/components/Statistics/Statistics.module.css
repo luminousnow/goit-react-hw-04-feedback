@@ -1,0 +1,11 @@
+span {
+  font-weight: bold;
+}
+
+.statList {
+  display: inline-flexbox;
+}
+
+.stat {
+  padding: 5px;
+}
