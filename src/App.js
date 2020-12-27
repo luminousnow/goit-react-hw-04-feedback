@@ -6,25 +6,25 @@ import Section from './components/Section';
 import Notification from './components/Notification';
 
 const App = () => {
-  // useState React hook
+  // === useState hook === //
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
 
-  // update State values if button pressed
+  // оновлює відповідне значення useState при відповідному тапу на кнопку відгуку
   const updateStatistics = statName => {
     switch (statName) {
-      // update good State value
+      // оновлює значення good
       case 'good':
         setGood(prevState => prevState + 1);
         break;
 
-      // update neutral State value
+      // оновлює значення neutral
       case 'neutral':
         setNeutral(prevState => prevState + 1);
         break;
 
-      // update bad State value
+      // оновлює значення bad
       case 'bad':
         setBad(prevState => prevState + 1);
         break;
@@ -34,10 +34,10 @@ const App = () => {
     }
   };
 
-  // sum feedback
+  // сумує значення усіх відгуків
   const countTotalFeedback = () => good + neutral + bad;
 
-  // % positive feedback
+  // знаходить % позитивних відгуків з усіх
   const countPositiveFeedbackPercentage = () =>
     Math.round((good / countTotalFeedback()) * 100) || 0;
 
